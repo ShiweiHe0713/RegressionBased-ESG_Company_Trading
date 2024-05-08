@@ -49,10 +49,18 @@ Random Forest models can overfit if they are too complex, I can try reducing the
 
 "When tuning these hyperparameters, it's essential to strike a balance between model complexity and performance on unseen data. This often involves experimentation and iterative refinement based on performance metrics obtained through cross-validation.
 
-For example, you might start with a broad search over a range of hyperparameter values and then narrow down to a smaller range for finer tuning. Additionally, techniques like grid search or random search can help automate the hyperparameter tuning process by systematically exploring different combinations of hyperparameters."
+For example, you might start with a broad search over a range of hyperparameter values and then narrow down to a smaller range for finer tuning. Additionally, techniques like grid search or random search can help automate the 
+hyperparameter tuning process by systematically exploring different combinations of hyperparameters."
 
-After tweeking the parameters and models many times, I found out that the R squred value on test size is basically always negative, it got me thinking, is the prediction target too hard to predict? Is predicting the daily too ambitious? Should I predict a range instead? Or should I only predict direction? etc. **I need to re-direct the steer.**
+**Cross validation**
+After doing 5-folds cross-validation, we get the metrics on the model performance:
+Cross-Validation Scores: [-0.0507099  -0.02806235 -0.30720464 -0.05822736 -0.14245818]
+Mean R-squared: -0.11733248582526827
+Standard Deviation of R-squared: 0.10255133019771644
 
+Which means the ensemble model did pretty bad on the prediction.
+
+After tweeking the parameters and models many times, I found out that the R squred value is constanly always negative, it got me thinking, is the prediction target too hard to predict? Is predicting the daily return too ambitious? Should I predict a range instead? Or should I only predict direction? etc. **I need to re-direct the steer.**
 
 
 # Findings
