@@ -44,6 +44,19 @@ Right now, I know I should increase model complexity, experimenting with differe
 ### Random Forest
 Cheerfully, after fitting with random forest, the r2 squared values become: r2_train: 0.846, r2_test: -0.118. Which means the model come predict on the training set pretty decently, but it is still over-fits. Even though the model is still very over-fitting, now at least I know the ensemble methods work much better than any other base models on the training sets.
 
+**Now I will write a solver to find the best parameters for the random forest**
+Random Forest models can overfit if they are too complex, I can try reducing the number of trees in the forest (`n_estimators`), limiting the maximum depth of the trees (`max_depth`), or increasing the minimum number of samples required to split a node (`min_samples_split`).
+
+"When tuning these hyperparameters, it's essential to strike a balance between model complexity and performance on unseen data. This often involves experimentation and iterative refinement based on performance metrics obtained through cross-validation.
+
+For example, you might start with a broad search over a range of hyperparameter values and then narrow down to a smaller range for finer tuning. Additionally, techniques like grid search or random search can help automate the hyperparameter tuning process by systematically exploring different combinations of hyperparameters."
+
+After tweeking the parameters and models many times, I found out that the R squred value on test size is basically always negative, it got me thinking, is the prediction target too hard to predict? Is predicting the daily too ambitious? Should I predict a range instead? Or should I only predict direction? etc. **I need to re-direct the steer.**
+
+
+
+# Findings
+- When tuning these hyperparameters, it's essential to strike a balance between model complexity and performance on unseen data, and it's very hard to do that.
 
 # Terms
 - What is R squred value? What does it indicate?
