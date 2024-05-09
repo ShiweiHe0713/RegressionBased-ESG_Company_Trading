@@ -62,6 +62,14 @@ Which means the ensemble model did pretty bad on the prediction.
 
 After tweeking the parameters and models many times, I found out that the R squred value is constanly always negative, it got me thinking, is the prediction target too hard to predict? Is predicting the daily return too ambitious? Should I predict a range instead? Or should I only predict direction? etc. **I need to re-direct the steer.**
 
+### Changing prediction target
+After changing the prediction target from one-day-forward retunr `AAPL_ret_f1` to moving averages `AAPL_Px_100MA`, the corelation between features and prediction target become much greater, and the R-squared value on both training test and test set are both positive now!
+<img alt="positive r2 values" src="assets/postive_r2.png" width="500px"/>
+
+But when using cross-validation, the scores though are positive, are still very low.
+<img alt="random forest+cross-val" src="assets/RF-CV.png" width="500px"/>
+
+**Now I'm thinking using moving averages and breakout system instead as the strategy!**
 
 # Findings
 - When tuning these hyperparameters, it's essential to strike a balance between model complexity and performance on unseen data, and it's very hard to do that.
