@@ -32,7 +32,8 @@ Table of contents:
 
 ## Data Processing
 ### Data Sampling
-I will keep in-sample for training, doing cross-val, out-of-sample data for testing to make sure the model is robust.
+so i have  5 year of data, I plan to split the data into 80% of training set, 20% of holdout set;
+for 80% of training set, I will use cross-validation to evaluate the performance and save the 20% of holdout set in the last testing phase to evaluate the robustness of the model. 
 I have 5 years of Apple's prices, Microsoft's prices, and Tesla's prices, I will use Apple's 3 year data for training, doing cross-val, and use left 2 years' data for testing. After done with modeling and evaluation, I will try the same thing thing with Microsoft and Tesla.
 
 #### Time-Seriss cross-validation 
