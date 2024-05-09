@@ -1,4 +1,21 @@
 # ESG Company Trading Strategy
+Table of contents:
+- [ESG Company Trading Strategy](#esg-company-trading-strategy)
+  - [Data Processing](#data-processing)
+    - [Data Sampling](#data-sampling)
+      - [Time-Seriss cross-validation](#time-seriss-cross-validation)
+    - [Data Massaging](#data-massaging)
+  - [Modeling](#modeling)
+      - [Initial exploration](#initial-exploration)
+      - [Differnt models](#differnt-models)
+      - [Random Forest](#random-forest)
+      - [Changing prediction target](#changing-prediction-target)
+    - [Compare with baseline models](#compare-with-baseline-models)
+    - [Evaluate the performance under different market conditions](#evaluate-the-performance-under-different-market-conditions)
+  - [Metrics](#metrics)
+  - [Findings](#findings)
+  - [Terms](#terms)
+  - [Dicussion](#dicussion)
 
 **Training Input:** 3 year of S&P 500 ESG Index, AAPL'S equity Stock Prices 
 **Output:** A model that can predict future prices
@@ -12,10 +29,20 @@
 - How to test the result in a systematic way?
   - Draw the Equity Graph, and compore with test set. Calculate accuracy, precision, auc, etc.
   - Calcute the financial to indicators, sharpe ratio, max drawdown, alpha, etc
-# Data Massaging
 
-# Modeling
-### Initial exploration
+## Data Processing
+### Data Sampling
+I will keep in-sample for training, doing cross-val, out-of-sample data for testing to make sure the model is robust.
+I have 5 years of Apple's prices, Microsoft's prices, and Tesla's prices, I will use Apple's 3 year data for training, doing cross-val, and use left 2 years' data for testing. After done with modeling and evaluation, I will try the same thing thing with Microsoft and Tesla.
+
+#### Time-Seriss cross-validation 
+"Time-Series Cross-Validation: Given the sequential nature of stock data, traditional random cross-validation might not be appropriate. Instead, use techniques like rolling or expanding window cross-validation, which respect the time series structure and are better at mimicking the real-world scenario where only past data is used to predict future outcomes."
+
+
+### Data Massaging
+
+## Modeling
+#### Initial exploration
 First, I used the simplest model `linear regression`  to predict the next day's price. The features used to train are 'AAPL_Volume(M)', 'AAPL_SMAVG15(M)', 'SPESG', the result are: 
 - Coefficients:  [[0.01268778 0.00806344 0.68694972]]
 - Variance score: 0.8772854909543317
@@ -32,7 +59,7 @@ So I created ret5, ret10, ret30, ret60, ret120, and ret250 as features as well, 
 
 Right now, I know I should increase model complexity, experimenting with different models, dealing with outliers, doing cross-validation, using regularization to avoid over-fitting, etc., to both increase the model complexity and have a more accurate prediction.
 
-### Differnt models
+#### Differnt models
 |    | R^2 Training set | R^2 Test set | 
 |----| -----------------| -------------|
 |Logistic regression | 0.06 | -0.09 | 
@@ -41,7 +68,8 @@ Right now, I know I should increase model complexity, experimenting with differe
 
 **We can conclude that the model overfits severly by the metrics given by decision tree, the model has learned noise and specific patterns in the training data that do not generalize to new data. So I will use ensemble models like random forest or XG Boost, etc to reduce the overfitting issue, and use cross-validation to replace train-test split.**
 
-### Random Forest
+
+#### Random Forest
 Cheerfully, after fitting with random forest, the r2 squared values become: r2_train: 0.846, r2_test: -0.118. Which means the model come predict on the training set pretty decently, but it is still over-fits. Even though the model is still very over-fitting, now at least I know the ensemble methods work much better than any other base models on the training sets.
 
 **Now I will write a solver to find the best parameters for the random forest**
@@ -62,7 +90,7 @@ Which means the ensemble model did pretty bad on the prediction.
 
 After tweeking the parameters and models many times, I found out that the R squred value is constanly always negative, it got me thinking, is the prediction target too hard to predict? Is predicting the daily return too ambitious? Should I predict a range instead? Or should I only predict direction? etc. **I need to re-direct the steer.**
 
-### Changing prediction target
+#### Changing prediction target
 After changing the prediction target from one-day-forward retunr `AAPL_ret_f1` to moving averages `AAPL_Px_100MA`, the corelation between features and prediction target become much greater, and the R-squared value on both training test and test set are both positive now!
 <img alt="positive r2 values" src="assets/postive_r2.png" width="500px"/>
 
@@ -71,12 +99,24 @@ But when using cross-validation, the scores though are positive, are still very 
 
 **Now I'm thinking using moving averages and breakout system instead as the strategy!**
 
-# Findings
-- When tuning these hyperparameters, it's essential to strike a balance between model complexity and performance on unseen data, and it's very hard to do that.
 
-# Terms
+### Compare with baseline models
+"It’s also useful to compare the R-squared of your model with that of a naive/baseline model, such as a model that predicts returns based on the average historical return. This can give you a better sense of how much additional explanatory power your model provides."
+
+### Evaluate the performance under different market conditions
+
+## Metrics
+Sharpe Ratio, Maximum dropdown, Alpha and Beta, Residual Analysis
+
+## Findings
+- When tuning these hyperparameters, it's essential to strike a balance between model complexity and performance on unseen data, and it's very hard to do that.
+- It is way more efficient if I build the measurement system first before tweeking with models.
+
+## Terms
 - What is R squred value? What does it indicate?
+R-squared measures the proportion of the variance in the dependent variable that is predictable from the independent variables.
+It's also crucial to supplement R-squared with other validation techniques, such as analyzing residuals and performing backtesting.
 - Does alpha and equity graph apply here?
 
-# Dicussion
+## Dicussion
 - Do companies with high ESG scores are more likely to outperform the market in the long run?
