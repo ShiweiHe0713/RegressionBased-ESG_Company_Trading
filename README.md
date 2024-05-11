@@ -39,8 +39,8 @@ I have 5 years of Apple's prices, Microsoft's prices, and Tesla's prices, I will
 #### Time-Seriss cross-validation 
 "Time-Series Cross-Validation: Given the sequential nature of stock data, traditional random cross-validation might not be appropriate. Instead, use techniques like rolling or expanding window cross-validation, which respect the time series structure and are better at mimicking the real-world scenario where only past data is used to predict future outcomes."
 
-
 ### Data Massaging
+After calculating return 250, the first 249 days of cells under `ret250` will be empty, thus has NaN values. Here for the sake of keeping the data intact, I will fill the mean values instead of droping the rows containing NaN values.
 
 ## Modeling
 #### Initial exploration
