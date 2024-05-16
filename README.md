@@ -63,7 +63,7 @@ Right now, I know I should increase model complexity, experimenting with differe
 #### Differnt models
 |    | R^2 Training set | R^2 Test set | 
 |----| -----------------| -------------|
-|Logistic regression | 0.06 | -0.09 | 
+|Linear regression | 0.06 | -0.09 | 
 |Bayesian regression | 0.015 | 0.00 | 
 |Decision Tree(depth20) | 0.973 | -1.116|
 
